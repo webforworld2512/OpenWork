@@ -101,3 +101,185 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "Test the LeadLens application at http://localhost:3000. This is an anonymous employee feedback platform with two roles: Employee and Leadership (Admin)."
+
+frontend:
+  - task: "Landing Page Navigation"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/LandingPage.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Verify landing page loads with hero section, features, and CTA buttons. Check 'Sign In' button navigates to /login and 'Get Started' button navigates to /login."
+
+  - task: "Login Page Functionality"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/LoginPage.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Verify login form renders with email/password fields. Test 'Leadership Login' and 'Employee Login' quick buttons."
+
+  - task: "Employee Dashboard"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/employee/EmployeeHome.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Verify Employee Home page shows welcome message, quick actions, privacy notice. Check navigation to feedback form."
+
+  - task: "Employee Feedback Submission"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/employee/SubmitFeedback.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Test full feedback submission flow: select domain, project, manager, fill star ratings, enter text, submit and verify success message."
+
+  - task: "Employee Domain Browsing"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/employee/BrowseDomains.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Verify domains list renders with 5 domains. Check domain detail page shows projects and managers."
+
+  - task: "Admin Dashboard"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/leadership/LeadershipDashboard.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Verify sidebar with navigation items. Check dashboard metric cards, trend chart, rating distributions."
+
+  - task: "Admin Manager Insights"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/leadership/ManagerInsights.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Verify manager selector, metrics, ratings tab, trends tab, AI Insights tab."
+
+  - task: "Admin Domain Insights"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/leadership/DomainInsights.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Verify domain selector, metrics, ratings, trends, managers tab."
+
+  - task: "Admin Domains Management"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/leadership/ManageDomains.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Verify list with edit/delete buttons, add button opens dialog."
+
+  - task: "Admin Projects Management"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/leadership/ManageProjects.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Verify list with domain/manager info."
+
+  - task: "Admin Managers Management"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/leadership/ManageManagers.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Verify grid with avatar/title/domain."
+
+  - task: "Admin Users Management"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/pages/leadership/ManageUsers.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Verify user list with role assignment dropdown."
+
+  - task: "Access Control"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/layout/DashboardLayout.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        -working: "NA"
+        -agent: "testing"
+        -comment: "Verify employee cannot access admin routes. Check admin can access all admin routes."
+
+metadata:
+  created_by: "testing_agent"
+  version: "1.0"
+  test_sequence: 0
+  run_ui: true
+
+test_plan:
+  current_focus:
+    - "Landing Page Navigation"
+    - "Login Page Functionality" 
+    - "Employee Dashboard"
+    - "Employee Feedback Submission"
+    - "Employee Domain Browsing"
+    - "Admin Dashboard"
+    - "Access Control"
+  stuck_tasks: []
+  test_all: true
+  test_priority: "high_first"
+
+agent_communication:
+    -agent: "testing"
+    -message: "Initializing test plan for LeadLens application. Will test all frontend components with priority on high importance tasks."
