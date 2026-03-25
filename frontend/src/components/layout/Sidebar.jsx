@@ -6,17 +6,17 @@ import { Separator } from '../ui/separator';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
 import {
   LayoutDashboard, Users, FolderKanban, Briefcase, UserCog,
-  ChevronLeft, ChevronRight, LogOut, Shield, BarChart3,
-  Building2, TrendingUp
+  ChevronLeft, ChevronRight, LogOut, BarChart3,
+  Building2, TrendingUp, Layers
 } from 'lucide-react';
 
 const navItems = [
   { label: 'Dashboard', path: '/admin', icon: LayoutDashboard },
   { label: 'Manager Insights', path: '/admin/manager-insights', icon: TrendingUp },
-  { label: 'Domain Insights', path: '/admin/domain-insights', icon: BarChart3 },
+  { label: 'Business Unit Insights', path: '/admin/unit-insights', icon: BarChart3 },
   { type: 'separator', label: 'Management' },
-  { label: 'Domains', path: '/admin/domains', icon: Building2 },
-  { label: 'Projects', path: '/admin/projects', icon: FolderKanban },
+  { label: 'Business Units', path: '/admin/business-units', icon: Building2 },
+  { label: 'Initiatives', path: '/admin/initiatives', icon: FolderKanban },
   { label: 'Managers', path: '/admin/managers', icon: Briefcase },
   { label: 'Users', path: '/admin/users', icon: UserCog },
 ];
@@ -41,11 +41,11 @@ export const Sidebar = () => {
         {/* Logo */}
         <div className="flex items-center gap-3 px-4 h-16 shrink-0">
           <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
-            <Shield className="w-4 h-4 text-primary-foreground" />
+            <Layers className="w-4 h-4 text-primary-foreground" />
           </div>
           {!collapsed && (
             <span className="text-lg font-heading font-semibold text-sidebar-foreground tracking-tight">
-              LeadLens
+              OpenWork
             </span>
           )}
         </div>
@@ -111,7 +111,7 @@ export const Sidebar = () => {
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-sidebar-foreground truncate">{user.name}</p>
-                <p className="text-xs text-sidebar-foreground/50 truncate">{user.role}</p>
+                <p className="text-xs text-sidebar-foreground/50 truncate capitalize">{user.role}</p>
               </div>
             </div>
           )}

@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useData } from '../../context/DataContext';
 import { Button } from '../../components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
+import { Card, CardContent } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
-import { MessageSquarePlus, FolderOpen, ArrowRight, Shield, Sparkles, Lock } from 'lucide-react';
+import { MessageSquarePlus, FolderOpen, ArrowRight, Shield, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const fadeUp = {
@@ -14,12 +14,11 @@ const fadeUp = {
 
 export default function EmployeeHome() {
   const { user } = useAuth();
-  const { domains, projectsData } = useData();
+  const { businessUnits, initiativesData } = useData();
   const navigate = useNavigate();
 
   return (
     <div className="space-y-8">
-      {/* Greeting */}
       <motion.div initial="hidden" animate="visible" variants={fadeUp} className="space-y-2">
         <h1 className="text-3xl sm:text-4xl font-heading font-bold text-foreground">
           Welcome back, {user?.name?.split(' ')[0]}
@@ -42,7 +41,7 @@ export default function EmployeeHome() {
                 <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all duration-300" />
               </div>
               <h3 className="text-lg font-heading font-semibold text-foreground mb-1">Submit Feedback</h3>
-              <p className="text-sm text-muted-foreground mb-4">Share anonymous, structured feedback about your manager and project.</p>
+              <p className="text-sm text-muted-foreground mb-4">Share anonymous, structured feedback about your manager and business unit.</p>
               <div className="mt-auto">
                 <Badge variant="secondary" className="text-xs gap-1">
                   <Lock className="w-3 h-3" />
@@ -55,7 +54,7 @@ export default function EmployeeHome() {
 
         <motion.div initial="hidden" animate="visible" custom={2} variants={fadeUp}>
           <Card className="border border-border hover:shadow-elegant hover:border-primary/20 transition-all duration-300 cursor-pointer group h-full"
-                onClick={() => navigate('/employee/domains')}>
+                onClick={() => navigate('/employee/business-units')}>
             <CardContent className="p-6 flex flex-col h-full">
               <div className="flex items-start justify-between mb-4">
                 <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center group-hover:bg-accent/15 transition-colors duration-300">
@@ -63,11 +62,11 @@ export default function EmployeeHome() {
                 </div>
                 <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all duration-300" />
               </div>
-              <h3 className="text-lg font-heading font-semibold text-foreground mb-1">Browse Domains</h3>
-              <p className="text-sm text-muted-foreground mb-4">Explore departments, projects, and their managers.</p>
+              <h3 className="text-lg font-heading font-semibold text-foreground mb-1">Browse Business Units</h3>
+              <p className="text-sm text-muted-foreground mb-4">Explore departments, initiatives, and their managers.</p>
               <div className="mt-auto">
                 <Badge variant="secondary" className="text-xs">
-                  {domains.length} Domains · {projectsData.length} Projects
+                  {businessUnits.length} Business Units · {initiativesData.length} Initiatives
                 </Badge>
               </div>
             </CardContent>
@@ -105,27 +104,27 @@ export default function EmployeeHome() {
         </Card>
       </motion.div>
 
-      {/* Recent Domains */}
+      {/* Recent Business Units */}
       <motion.div initial="hidden" animate="visible" custom={4} variants={fadeUp} className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-heading font-semibold text-foreground">Departments</h2>
-          <Button variant="ghost" size="sm" onClick={() => navigate('/employee/domains')} className="gap-1 text-muted-foreground">
+          <h2 className="text-xl font-heading font-semibold text-foreground">Business Units</h2>
+          <Button variant="ghost" size="sm" onClick={() => navigate('/employee/business-units')} className="gap-1 text-muted-foreground">
             View all <ArrowRight className="w-4 h-4" />
           </Button>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {domains.slice(0, 3).map((domain, i) => {
-            const projectCount = projectsData.filter(p => p.domainId === domain.id).length;
+          {businessUnits.slice(0, 3).map((unit) => {
+            const initCount = initiativesData.filter(p => p.businessUnitId === unit.id).length;
             return (
               <Card
-                key={domain.id}
+                key={unit.id}
                 className="border border-border hover:shadow-elegant hover:border-primary/20 transition-all duration-300 cursor-pointer"
-                onClick={() => navigate(`/employee/domains/${domain.id}`)}
+                onClick={() => navigate(`/employee/business-units/${unit.id}`)}
               >
                 <CardContent className="p-5">
-                  <h3 className="text-base font-heading font-semibold text-foreground mb-1">{domain.name}</h3>
-                  <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{domain.description}</p>
-                  <Badge variant="secondary" className="text-xs">{projectCount} project{projectCount !== 1 ? 's' : ''}</Badge>
+                  <h3 className="text-base font-heading font-semibold text-foreground mb-1">{unit.name}</h3>
+                  <p className="text-sm text-muted-foreground line-clamp-2 mb-3">{unit.description}</p>
+                  <Badge variant="secondary" className="text-xs">{initCount} initiative{initCount !== 1 ? 's' : ''}</Badge>
                 </CardContent>
               </Card>
             );

@@ -14,12 +14,12 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const stored = localStorage.getItem('leadlens_user');
+    const stored = localStorage.getItem('openwork_user');
     if (stored) {
       try {
         setUser(JSON.parse(stored));
       } catch {
-        localStorage.removeItem('leadlens_user');
+        localStorage.removeItem('openwork_user');
       }
     }
     setLoading(false);
@@ -29,22 +29,23 @@ export const AuthProvider = ({ children }) => {
     const found = users.find(u => u.email === email);
     if (found) {
       setUser(found);
-      localStorage.setItem('leadlens_user', JSON.stringify(found));
+      localStorage.setItem('openwork_user', JSON.stringify(found));
       return { success: true, user: found };
     }
-    return { success: false, error: 'Invalid credentials. Try admin@leadlens.io or employee@leadlens.io' };
+    return { success: false, error: 'Invalid credentials. Try admin@openwork.io, employee@openwork.io, or manager@openwork.io' };
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('leadlens_user');
+    localStorage.removeItem('openwork_user');
   };
 
   const isLeadership = user?.role === 'leadership';
   const isEmployee = user?.role === 'employee';
+  const isManager = user?.role === 'manager';
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading, isLeadership, isEmployee }}>
+    <AuthContext.Provider value={{ user, login, logout, loading, isLeadership, isEmployee, isManager }}>
       {children}
     </AuthContext.Provider>
   );

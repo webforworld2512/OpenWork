@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../co
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Separator } from '../components/ui/separator';
-import { Shield, ArrowRight, Mail, Lock, AlertCircle } from 'lucide-react';
+import { Layers, ArrowRight, Mail, Lock, AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function LoginPage() {
@@ -16,13 +16,19 @@ export default function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  const getRedirect = (role) => {
+    if (role === 'leadership') return '/admin';
+    if (role === 'manager') return '/my-growth';
+    return '/employee';
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
     const result = login(email, password);
     if (result.success) {
       toast.success(`Welcome back, ${result.user.name}!`);
-      navigate(result.user.role === 'leadership' ? '/admin' : '/employee');
+      navigate(getRedirect(result.user.role));
     } else {
       setError(result.error);
     }
@@ -33,7 +39,7 @@ export default function LoginPage() {
     const result = login(email, 'demo');
     if (result.success) {
       toast.success(`Welcome back, ${result.user.name}!`);
-      navigate(result.user.role === 'leadership' ? '/admin' : '/employee');
+      navigate(getRedirect(result.user.role));
     }
   };
 
@@ -43,9 +49,9 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="text-center space-y-3">
           <div className="w-12 h-12 mx-auto rounded-xl bg-gradient-primary flex items-center justify-center">
-            <Shield className="w-6 h-6 text-primary-foreground" />
+            <Layers className="w-6 h-6 text-primary-foreground" />
           </div>
-          <h1 className="text-2xl font-heading font-bold text-foreground">Welcome to LeadLens</h1>
+          <h1 className="text-2xl font-heading font-bold text-foreground">Welcome to OpenWork</h1>
           <p className="text-sm text-muted-foreground">Sign in to continue</p>
         </div>
 
@@ -103,22 +109,30 @@ export default function LoginPage() {
 
             <div className="space-y-2">
               <p className="text-xs text-center text-muted-foreground font-medium">Quick Demo Access</p>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-3 gap-2">
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => quickLogin('admin@leadlens.io')}
+                  onClick={() => quickLogin('admin@openwork.io')}
                   className="text-xs"
                 >
-                  Leadership Login
+                  Leadership
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => quickLogin('employee@leadlens.io')}
+                  onClick={() => quickLogin('employee@openwork.io')}
                   className="text-xs"
                 >
-                  Employee Login
+                  Employee
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => quickLogin('manager@openwork.io')}
+                  className="text-xs"
+                >
+                  Manager
                 </Button>
               </div>
             </div>

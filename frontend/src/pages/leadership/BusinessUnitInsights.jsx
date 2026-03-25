@@ -17,51 +17,50 @@ const fadeUp = {
   visible: (i = 0) => ({ opacity: 1, y: 0, transition: { delay: i * 0.06, duration: 0.4 } }),
 };
 
-export default function DomainInsights() {
-  const { domains, managersData, getDomainFeedback, computeAggregation, ANONYMITY_THRESHOLD } = useData();
-  const [domainId, setDomainId] = useState(domains[0]?.id || '');
+export default function BusinessUnitInsights() {
+  const { businessUnits, managersData, getBusinessUnitFeedback, computeAggregation, ANONYMITY_THRESHOLD } = useData();
+  const [unitId, setUnitId] = useState(businessUnits[0]?.id || '');
 
-  const domain = domains.find(d => d.id === domainId);
-  const domainManagers = managersData.filter(m => m.domainId === domainId);
+  const unit = businessUnits.find(d => d.id === unitId);
+  const unitManagers = managersData.filter(m => m.businessUnitId === unitId);
 
   const feedbackData = useMemo(() => {
-    if (!domainId) return [];
-    return getDomainFeedback(domainId);
-  }, [domainId, getDomainFeedback]);
+    if (!unitId) return [];
+    return getBusinessUnitFeedback(unitId);
+  }, [unitId, getBusinessUnitFeedback]);
 
   const agg = useMemo(() => computeAggregation(feedbackData), [feedbackData, computeAggregation]);
 
-  // Per-manager within domain
   const managerBreakdown = useMemo(() => {
-    return domainManagers.map(m => {
+    return unitManagers.map(m => {
       const mFeedback = feedbackData.filter(f => f.managerId === m.id);
       const mAgg = computeAggregation(mFeedback);
       return { ...m, count: mAgg.count, overallAvg: mAgg.overallAvg, meetsThreshold: mAgg.meetsThreshold };
     });
-  }, [domainManagers, feedbackData, computeAggregation]);
+  }, [unitManagers, feedbackData, computeAggregation]);
 
   return (
     <div className="space-y-8">
       <motion.div initial="hidden" animate="visible" variants={fadeUp} className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-heading font-bold text-foreground">Domain Insights</h1>
-          <p className="text-base text-muted-foreground mt-1">Aggregated feedback across an entire domain.</p>
+          <h1 className="text-3xl font-heading font-bold text-foreground">Business Unit Insights</h1>
+          <p className="text-base text-muted-foreground mt-1">Aggregated feedback across an entire business unit.</p>
         </div>
-        <Select value={domainId} onValueChange={setDomainId}>
+        <Select value={unitId} onValueChange={setUnitId}>
           <SelectTrigger className="w-[200px]">
-            <SelectValue placeholder="Select a domain" />
+            <SelectValue placeholder="Select a unit" />
           </SelectTrigger>
           <SelectContent>
-            {domains.map(d => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}
+            {businessUnits.map(d => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}
           </SelectContent>
         </Select>
       </motion.div>
 
-      {domain && (
+      {unit && (
         <motion.div initial="hidden" animate="visible" custom={1} variants={fadeUp}
           className="p-4 rounded-xl border border-border bg-card">
-          <h2 className="text-lg font-heading font-semibold text-foreground">{domain.name}</h2>
-          <p className="text-sm text-muted-foreground mt-1">{domain.description}</p>
+          <h2 className="text-lg font-heading font-semibold text-foreground">{unit.name}</h2>
+          <p className="text-sm text-muted-foreground mt-1">{unit.description}</p>
         </motion.div>
       )}
 
@@ -69,7 +68,7 @@ export default function DomainInsights() {
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
           <MetricCard label="Responses" value={agg.count} subtext="submissions" icon={MessageSquare} />
           <MetricCard label="Overall Rating" value={agg.meetsThreshold ? agg.overallAvg : '—'} subtext={agg.meetsThreshold ? 'out of 5.0' : 'Below threshold'} icon={Star} />
-          <MetricCard label="Managers" value={domainManagers.length} subtext="in domain" icon={Users} />
+          <MetricCard label="Managers" value={unitManagers.length} subtext="in unit" icon={Users} />
         </div>
       </motion.div>
 
@@ -92,7 +91,7 @@ export default function DomainInsights() {
           </TabsContent>
 
           <TabsContent value="trends">
-            <TrendChart data={agg.trends} title={`Rating Trends for ${domain?.name}`} />
+            <TrendChart data={agg.trends} title={`Rating Trends for ${unit?.name}`} />
           </TabsContent>
 
           <TabsContent value="managers" className="space-y-4">

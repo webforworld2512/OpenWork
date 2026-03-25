@@ -4,7 +4,7 @@ import { Card, CardContent } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
 import { Button } from '../../components/ui/button';
 import { Avatar, AvatarFallback } from '../../components/ui/avatar';
-import { ArrowLeft, MessageSquarePlus, User } from 'lucide-react';
+import { ArrowLeft, MessageSquarePlus } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const fadeUp = {
@@ -12,21 +12,21 @@ const fadeUp = {
   visible: (i = 0) => ({ opacity: 1, y: 0, transition: { delay: i * 0.08, duration: 0.4 } }),
 };
 
-export default function DomainDetail() {
-  const { domainId } = useParams();
-  const { domains, projectsData, managersData } = useData();
+export default function BusinessUnitDetail() {
+  const { unitId } = useParams();
+  const { businessUnits, initiativesData, managersData } = useData();
   const navigate = useNavigate();
 
-  const domain = domains.find(d => d.id === domainId);
-  const domainProjects = projectsData.filter(p => p.domainId === domainId);
-  const domainManagers = managersData.filter(m => m.domainId === domainId);
+  const unit = businessUnits.find(d => d.id === unitId);
+  const unitInitiatives = initiativesData.filter(p => p.businessUnitId === unitId);
+  const unitManagers = managersData.filter(m => m.businessUnitId === unitId);
 
-  if (!domain) {
+  if (!unit) {
     return (
       <div className="text-center py-16">
-        <p className="text-muted-foreground">Domain not found.</p>
-        <Button variant="ghost" onClick={() => navigate('/employee/domains')} className="mt-4 gap-2">
-          <ArrowLeft className="w-4 h-4" /> Back to Domains
+        <p className="text-muted-foreground">Business unit not found.</p>
+        <Button variant="ghost" onClick={() => navigate('/employee/business-units')} className="mt-4 gap-2">
+          <ArrowLeft className="w-4 h-4" /> Back to Business Units
         </Button>
       </div>
     );
@@ -35,28 +35,28 @@ export default function DomainDetail() {
   return (
     <div className="space-y-8">
       <motion.div initial="hidden" animate="visible" variants={fadeUp}>
-        <Button variant="ghost" size="sm" onClick={() => navigate('/employee/domains')} className="gap-2 text-muted-foreground mb-4">
-          <ArrowLeft className="w-4 h-4" /> Back to Domains
+        <Button variant="ghost" size="sm" onClick={() => navigate('/employee/business-units')} className="gap-2 text-muted-foreground mb-4">
+          <ArrowLeft className="w-4 h-4" /> Back to Business Units
         </Button>
-        <h1 className="text-3xl sm:text-4xl font-heading font-bold text-foreground">{domain.name}</h1>
-        <p className="text-base text-muted-foreground mt-2">{domain.description}</p>
+        <h1 className="text-3xl sm:text-4xl font-heading font-bold text-foreground">{unit.name}</h1>
+        <p className="text-base text-muted-foreground mt-2">{unit.description}</p>
       </motion.div>
 
-      {/* Projects */}
+      {/* Initiatives */}
       <motion.div initial="hidden" animate="visible" custom={1} variants={fadeUp} className="space-y-4">
-        <h2 className="text-xl font-heading font-semibold text-foreground">Projects</h2>
+        <h2 className="text-xl font-heading font-semibold text-foreground">Major Initiatives</h2>
         <div className="grid sm:grid-cols-2 gap-4">
-          {domainProjects.map((project, i) => {
-            const manager = managersData.find(m => m.id === project.managerId);
+          {unitInitiatives.map((initiative, i) => {
+            const manager = managersData.find(m => m.id === initiative.managerId);
             return (
-              <motion.div key={project.id} initial="hidden" animate="visible" custom={i + 1} variants={fadeUp}>
+              <motion.div key={initiative.id} initial="hidden" animate="visible" custom={i + 1} variants={fadeUp}>
                 <Card className="border border-border hover:shadow-elegant transition-shadow duration-300 h-full">
                   <CardContent className="p-5 flex flex-col h-full">
                     <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-base font-heading font-semibold text-foreground">{project.name}</h3>
-                      <Badge variant="secondary" className="text-xs capitalize">{project.status}</Badge>
+                      <h3 className="text-base font-heading font-semibold text-foreground">{initiative.name}</h3>
+                      <Badge variant="secondary" className="text-xs capitalize">{initiative.status}</Badge>
                     </div>
-                    <p className="text-sm text-muted-foreground mb-4 flex-1">{project.description}</p>
+                    <p className="text-sm text-muted-foreground mb-4 flex-1">{initiative.description}</p>
                     {manager && (
                       <div className="flex items-center gap-2 mt-auto pt-3 border-t border-border">
                         <Avatar className="w-7 h-7">
@@ -80,7 +80,7 @@ export default function DomainDetail() {
       <motion.div initial="hidden" animate="visible" custom={2} variants={fadeUp} className="space-y-4">
         <h2 className="text-xl font-heading font-semibold text-foreground">Managers</h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {domainManagers.map((manager) => (
+          {unitManagers.map((manager) => (
             <Card key={manager.id} className="border border-border">
               <CardContent className="p-5 flex items-center gap-3">
                 <Avatar className="w-10 h-10">

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { domains as seedDomains, managers as seedManagers, projects as seedProjects, generateFeedback, users as seedUsers, ANONYMITY_THRESHOLD } from '../data/seedData';
+import { businessUnits as seedUnits, managers as seedManagers, initiatives as seedInitiatives, generateFeedback, users as seedUsers, ANONYMITY_THRESHOLD } from '../data/seedData';
 
 const DataContext = createContext(null);
 
@@ -10,23 +10,22 @@ export const useData = () => {
 };
 
 export const DataProvider = ({ children }) => {
-  const [domains, setDomains] = useState([]);
+  const [businessUnits, setBusinessUnits] = useState([]);
   const [managersData, setManagers] = useState([]);
-  const [projectsData, setProjects] = useState([]);
+  const [initiativesData, setInitiatives] = useState([]);
   const [feedback, setFeedback] = useState([]);
   const [usersData, setUsers] = useState([]);
 
   useEffect(() => {
-    // Load from localStorage or seed
-    const storedDomains = localStorage.getItem('ll_domains');
-    const storedManagers = localStorage.getItem('ll_managers');
-    const storedProjects = localStorage.getItem('ll_projects');
-    const storedFeedback = localStorage.getItem('ll_feedback');
-    const storedUsers = localStorage.getItem('ll_users');
+    const storedUnits = localStorage.getItem('ow_businessUnits');
+    const storedManagers = localStorage.getItem('ow_managers');
+    const storedInitiatives = localStorage.getItem('ow_initiatives');
+    const storedFeedback = localStorage.getItem('ow_feedback');
+    const storedUsers = localStorage.getItem('ow_users');
 
-    setDomains(storedDomains ? JSON.parse(storedDomains) : seedDomains);
+    setBusinessUnits(storedUnits ? JSON.parse(storedUnits) : seedUnits);
     setManagers(storedManagers ? JSON.parse(storedManagers) : seedManagers);
-    setProjects(storedProjects ? JSON.parse(storedProjects) : seedProjects);
+    setInitiatives(storedInitiatives ? JSON.parse(storedInitiatives) : seedInitiatives);
     setFeedback(storedFeedback ? JSON.parse(storedFeedback) : generateFeedback());
     setUsers(storedUsers ? JSON.parse(storedUsers) : seedUsers);
   }, []);
@@ -35,25 +34,25 @@ export const DataProvider = ({ children }) => {
     localStorage.setItem(key, JSON.stringify(data));
   };
 
-  // Domain CRUD
-  const addDomain = (domain) => {
-    const newDomain = { ...domain, id: `d${Date.now()}` };
-    const updated = [...domains, newDomain];
-    setDomains(updated);
-    persist('ll_domains', updated);
-    return newDomain;
+  // Business Unit CRUD
+  const addBusinessUnit = (unit) => {
+    const newUnit = { ...unit, id: `d${Date.now()}` };
+    const updated = [...businessUnits, newUnit];
+    setBusinessUnits(updated);
+    persist('ow_businessUnits', updated);
+    return newUnit;
   };
 
-  const updateDomain = (id, data) => {
-    const updated = domains.map(d => d.id === id ? { ...d, ...data } : d);
-    setDomains(updated);
-    persist('ll_domains', updated);
+  const updateBusinessUnit = (id, data) => {
+    const updated = businessUnits.map(d => d.id === id ? { ...d, ...data } : d);
+    setBusinessUnits(updated);
+    persist('ow_businessUnits', updated);
   };
 
-  const deleteDomain = (id) => {
-    const updated = domains.filter(d => d.id !== id);
-    setDomains(updated);
-    persist('ll_domains', updated);
+  const deleteBusinessUnit = (id) => {
+    const updated = businessUnits.filter(d => d.id !== id);
+    setBusinessUnits(updated);
+    persist('ow_businessUnits', updated);
   };
 
   // Manager CRUD
@@ -61,48 +60,48 @@ export const DataProvider = ({ children }) => {
     const newManager = { ...manager, id: `m${Date.now()}` };
     const updated = [...managersData, newManager];
     setManagers(updated);
-    persist('ll_managers', updated);
+    persist('ow_managers', updated);
     return newManager;
   };
 
   const updateManager = (id, data) => {
     const updated = managersData.map(m => m.id === id ? { ...m, ...data } : m);
     setManagers(updated);
-    persist('ll_managers', updated);
+    persist('ow_managers', updated);
   };
 
   const deleteManager = (id) => {
     const updated = managersData.filter(m => m.id !== id);
     setManagers(updated);
-    persist('ll_managers', updated);
+    persist('ow_managers', updated);
   };
 
-  // Project CRUD
-  const addProject = (project) => {
-    const newProject = { ...project, id: `p${Date.now()}` };
-    const updated = [...projectsData, newProject];
-    setProjects(updated);
-    persist('ll_projects', updated);
-    return newProject;
+  // Initiative CRUD
+  const addInitiative = (initiative) => {
+    const newInitiative = { ...initiative, id: `p${Date.now()}` };
+    const updated = [...initiativesData, newInitiative];
+    setInitiatives(updated);
+    persist('ow_initiatives', updated);
+    return newInitiative;
   };
 
-  const updateProject = (id, data) => {
-    const updated = projectsData.map(p => p.id === id ? { ...p, ...data } : p);
-    setProjects(updated);
-    persist('ll_projects', updated);
+  const updateInitiative = (id, data) => {
+    const updated = initiativesData.map(p => p.id === id ? { ...p, ...data } : p);
+    setInitiatives(updated);
+    persist('ow_initiatives', updated);
   };
 
-  const deleteProject = (id) => {
-    const updated = projectsData.filter(p => p.id !== id);
-    setProjects(updated);
-    persist('ll_projects', updated);
+  const deleteInitiative = (id) => {
+    const updated = initiativesData.filter(p => p.id !== id);
+    setInitiatives(updated);
+    persist('ow_initiatives', updated);
   };
 
   // User CRUD
   const updateUserRole = (id, role) => {
     const updated = usersData.map(u => u.id === id ? { ...u, role } : u);
     setUsers(updated);
-    persist('ll_users', updated);
+    persist('ow_users', updated);
   };
 
   // Feedback
@@ -110,7 +109,7 @@ export const DataProvider = ({ children }) => {
     const newFb = { ...fb, id: `f${Date.now()}`, submittedAt: new Date().toISOString().slice(0, 10) };
     const updated = [...feedback, newFb];
     setFeedback(updated);
-    persist('ll_feedback', updated);
+    persist('ow_feedback', updated);
     return newFb;
   };
 
@@ -122,8 +121,8 @@ export const DataProvider = ({ children }) => {
     return filtered;
   };
 
-  const getDomainFeedback = (domainId, dateRange) => {
-    let filtered = feedback.filter(f => f.domainId === domainId);
+  const getBusinessUnitFeedback = (businessUnitId, dateRange) => {
+    let filtered = feedback.filter(f => f.businessUnitId === businessUnitId);
     if (dateRange?.from) filtered = filtered.filter(f => f.submittedAt >= dateRange.from);
     if (dateRange?.to) filtered = filtered.filter(f => f.submittedAt <= dateRange.to);
     return filtered;
@@ -170,13 +169,13 @@ export const DataProvider = ({ children }) => {
 
   return (
     <DataContext.Provider value={{
-      domains, managersData, projectsData, feedback, usersData,
-      addDomain, updateDomain, deleteDomain,
+      businessUnits, managersData, initiativesData, feedback, usersData,
+      addBusinessUnit, updateBusinessUnit, deleteBusinessUnit,
       addManager, updateManager, deleteManager,
-      addProject, updateProject, deleteProject,
+      addInitiative, updateInitiative, deleteInitiative,
       updateUserRole,
       submitFeedback,
-      getManagerFeedback, getDomainFeedback, computeAggregation,
+      getManagerFeedback, getBusinessUnitFeedback, computeAggregation,
       ANONYMITY_THRESHOLD,
     }}>
       {children}

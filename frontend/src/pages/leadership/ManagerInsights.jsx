@@ -17,11 +17,11 @@ const fadeUp = {
 };
 
 export default function ManagerInsights() {
-  const { managersData, domains, getManagerFeedback, computeAggregation, ANONYMITY_THRESHOLD } = useData();
+  const { managersData, businessUnits, getManagerFeedback, computeAggregation, ANONYMITY_THRESHOLD } = useData();
   const [managerId, setManagerId] = useState(managersData[0]?.id || '');
 
   const manager = managersData.find(m => m.id === managerId);
-  const domain = domains.find(d => d.id === manager?.domainId);
+  const unit = businessUnits.find(d => d.id === manager?.businessUnitId);
 
   const feedbackData = useMemo(() => {
     if (!managerId) return [];
@@ -32,7 +32,6 @@ export default function ManagerInsights() {
 
   return (
     <div className="space-y-8">
-      {/* Header */}
       <motion.div initial="hidden" animate="visible" variants={fadeUp} className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
         <div>
           <h1 className="text-3xl font-heading font-bold text-foreground">Manager Insights</h1>
@@ -50,7 +49,6 @@ export default function ManagerInsights() {
         </Select>
       </motion.div>
 
-      {/* Manager Info */}
       {manager && (
         <motion.div initial="hidden" animate="visible" custom={1} variants={fadeUp}
           className="flex items-center gap-4 p-4 rounded-xl border border-border bg-card">
@@ -59,12 +57,11 @@ export default function ManagerInsights() {
           </Avatar>
           <div>
             <h2 className="text-lg font-heading font-semibold text-foreground">{manager.name}</h2>
-            <p className="text-sm text-muted-foreground">{manager.title} · {domain?.name || 'Unknown'}</p>
+            <p className="text-sm text-muted-foreground">{manager.title} · {unit?.name || 'Unknown'}</p>
           </div>
         </motion.div>
       )}
 
-      {/* Metrics */}
       <motion.div initial="hidden" animate="visible" custom={2} variants={fadeUp}>
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
           <MetricCard label="Responses" value={agg.count} subtext="submissions" icon={MessageSquare} />

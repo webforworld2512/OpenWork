@@ -18,25 +18,25 @@ const fadeUp = {
 };
 
 export default function ManageManagers() {
-  const { domains, managersData, addManager, updateManager, deleteManager } = useData();
+  const { businessUnits, managersData, addManager, updateManager, deleteManager } = useData();
   const [editingManager, setEditingManager] = useState(null);
-  const [formData, setFormData] = useState({ name: '', title: '', domainId: '', avatar: '' });
+  const [formData, setFormData] = useState({ name: '', title: '', businessUnitId: '', avatar: '' });
   const [isOpen, setIsOpen] = useState(false);
 
   const openCreate = () => {
     setEditingManager(null);
-    setFormData({ name: '', title: '', domainId: '', avatar: '' });
+    setFormData({ name: '', title: '', businessUnitId: '', avatar: '' });
     setIsOpen(true);
   };
 
   const openEdit = (manager) => {
     setEditingManager(manager);
-    setFormData({ name: manager.name, title: manager.title, domainId: manager.domainId, avatar: manager.avatar });
+    setFormData({ name: manager.name, title: manager.title, businessUnitId: manager.businessUnitId, avatar: manager.avatar });
     setIsOpen(true);
   };
 
   const handleSave = () => {
-    if (!formData.name.trim() || !formData.domainId) { toast.error('Name and domain are required.'); return; }
+    if (!formData.name.trim() || !formData.businessUnitId) { toast.error('Name and business unit are required.'); return; }
     const avatar = formData.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
     if (editingManager) {
       updateManager(editingManager.id, { ...formData, avatar });
@@ -48,17 +48,12 @@ export default function ManageManagers() {
     setIsOpen(false);
   };
 
-  const handleDelete = (id) => {
-    deleteManager(id);
-    toast.success('Manager deleted.');
-  };
-
   return (
     <div className="space-y-8">
       <motion.div initial="hidden" animate="visible" variants={fadeUp} className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-heading font-bold text-foreground">Manage Managers</h1>
-          <p className="text-base text-muted-foreground mt-1">Add and manage managers in the organization.</p>
+          <p className="text-base text-muted-foreground mt-1">Add and manage managers across the organization.</p>
         </div>
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
@@ -77,14 +72,14 @@ export default function ManageManagers() {
               </div>
               <div className="space-y-2">
                 <Label>Title</Label>
-                <Input value={formData.title} onChange={(e) => setFormData(p => ({ ...p, title: e.target.value }))} placeholder="e.g., Engineering Manager" />
+                <Input value={formData.title} onChange={(e) => setFormData(p => ({ ...p, title: e.target.value }))} placeholder="e.g., Finance Manager" />
               </div>
               <div className="space-y-2">
-                <Label>Domain</Label>
-                <Select value={formData.domainId} onValueChange={(v) => setFormData(p => ({ ...p, domainId: v }))}>
-                  <SelectTrigger><SelectValue placeholder="Select domain" /></SelectTrigger>
+                <Label>Business Unit</Label>
+                <Select value={formData.businessUnitId} onValueChange={(v) => setFormData(p => ({ ...p, businessUnitId: v }))}>
+                  <SelectTrigger><SelectValue placeholder="Select business unit" /></SelectTrigger>
                   <SelectContent>
-                    {domains.map(d => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}
+                    {businessUnits.map(d => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}
                   </SelectContent>
                 </Select>
               </div>
@@ -99,7 +94,7 @@ export default function ManageManagers() {
 
       <div className="grid sm:grid-cols-2 gap-4">
         {managersData.map((manager, i) => {
-          const domain = domains.find(d => d.id === manager.domainId);
+          const unit = businessUnits.find(d => d.id === manager.businessUnitId);
           return (
             <motion.div key={manager.id} initial="hidden" animate="visible" custom={i} variants={fadeUp}>
               <Card className="border border-border">
@@ -112,14 +107,14 @@ export default function ManageManagers() {
                       <div className="min-w-0">
                         <h3 className="text-sm font-semibold text-foreground truncate">{manager.name}</h3>
                         <p className="text-xs text-muted-foreground truncate">{manager.title}</p>
-                        <Badge variant="secondary" className="text-[10px] mt-1">{domain?.name || 'Unknown'}</Badge>
+                        <Badge variant="secondary" className="text-[10px] mt-1">{unit?.name || 'Unknown'}</Badge>
                       </div>
                     </div>
                     <div className="flex gap-1 shrink-0">
                       <Button variant="ghost" size="icon" onClick={() => openEdit(manager)} className="h-8 w-8">
                         <Pencil className="w-4 h-4 text-muted-foreground" />
                       </Button>
-                      <Button variant="ghost" size="icon" onClick={() => handleDelete(manager.id)} className="h-8 w-8 hover:text-destructive">
+                      <Button variant="ghost" size="icon" onClick={() => { deleteManager(manager.id); toast.success('Manager deleted.'); }} className="h-8 w-8 hover:text-destructive">
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>

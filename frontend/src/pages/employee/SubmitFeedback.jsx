@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../..
 import { Label } from '../../components/ui/label';
 import { Textarea } from '../../components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
-import { Separator } from '../../components/ui/separator';
 import { Badge } from '../../components/ui/badge';
 import { Lock, Send, Star, CheckCircle, ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
@@ -26,11 +25,11 @@ const fadeUp = {
 };
 
 export default function SubmitFeedback() {
-  const { domains, projectsData, managersData, submitFeedback } = useData();
+  const { businessUnits, initiativesData, managersData, submitFeedback } = useData();
   const navigate = useNavigate();
 
-  const [domainId, setDomainId] = useState('');
-  const [projectId, setProjectId] = useState('');
+  const [businessUnitId, setBusinessUnitId] = useState('');
+  const [initiativeId, setInitiativeId] = useState('');
   const [managerId, setManagerId] = useState('');
   const [ratings, setRatings] = useState({
     communication: 0, clarity: 0, support: 0, fairness: 0, technicalGuidance: 0,
@@ -40,14 +39,14 @@ export default function SubmitFeedback() {
   const [suggestion, setSuggestion] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const filteredProjects = domainId ? projectsData.filter(p => p.domainId === domainId) : [];
-  const filteredManagers = domainId ? managersData.filter(m => m.domainId === domainId) : managersData;
+  const filteredInitiatives = businessUnitId ? initiativesData.filter(p => p.businessUnitId === businessUnitId) : [];
+  const filteredManagers = businessUnitId ? managersData.filter(m => m.businessUnitId === businessUnitId) : managersData;
 
   const handleRating = (category, value) => {
     setRatings(prev => ({ ...prev, [category]: value }));
   };
 
-  const isValid = domainId && managerId && Object.values(ratings).every(r => r > 0);
+  const isValid = businessUnitId && managerId && Object.values(ratings).every(r => r > 0);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,7 +55,7 @@ export default function SubmitFeedback() {
       return;
     }
     submitFeedback({
-      domainId, projectId: projectId || null, managerId,
+      businessUnitId, initiativeId: initiativeId || null, managerId,
       ratings, positiveComment, improvementComment, suggestion,
     });
     setSubmitted(true);
@@ -76,7 +75,7 @@ export default function SubmitFeedback() {
           </p>
         </div>
         <div className="flex gap-3 justify-center">
-          <Button onClick={() => { setSubmitted(false); setDomainId(''); setProjectId(''); setManagerId(''); setRatings({ communication: 0, clarity: 0, support: 0, fairness: 0, technicalGuidance: 0 }); setPositiveComment(''); setImprovementComment(''); setSuggestion(''); }} variant="outline" className="gap-2">
+          <Button onClick={() => { setSubmitted(false); setBusinessUnitId(''); setInitiativeId(''); setManagerId(''); setRatings({ communication: 0, clarity: 0, support: 0, fairness: 0, technicalGuidance: 0 }); setPositiveComment(''); setImprovementComment(''); setSuggestion(''); }} variant="outline" className="gap-2">
             Submit Another
           </Button>
           <Button onClick={() => navigate('/employee')} className="gap-2">
@@ -110,24 +109,24 @@ export default function SubmitFeedback() {
         <Card className="border border-border">
           <CardHeader className="pb-3">
             <CardTitle className="text-base font-heading">Context</CardTitle>
-            <CardDescription>Select the domain, project, and manager for your feedback.</CardDescription>
+            <CardDescription>Select the business unit, initiative, and manager for your feedback.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label className="text-sm font-medium">Domain <span className="text-destructive">*</span></Label>
-              <Select value={domainId} onValueChange={(v) => { setDomainId(v); setProjectId(''); setManagerId(''); }}>
-                <SelectTrigger><SelectValue placeholder="Select a domain" /></SelectTrigger>
+              <Label className="text-sm font-medium">Business Unit <span className="text-destructive">*</span></Label>
+              <Select value={businessUnitId} onValueChange={(v) => { setBusinessUnitId(v); setInitiativeId(''); setManagerId(''); }}>
+                <SelectTrigger><SelectValue placeholder="Select a business unit" /></SelectTrigger>
                 <SelectContent>
-                  {domains.map(d => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}
+                  {businessUnits.map(d => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label className="text-sm font-medium">Project <span className="text-muted-foreground text-xs">(optional)</span></Label>
-              <Select value={projectId} onValueChange={setProjectId} disabled={!domainId}>
-                <SelectTrigger><SelectValue placeholder="Select a project" /></SelectTrigger>
+              <Label className="text-sm font-medium">Initiative <span className="text-muted-foreground text-xs">(optional)</span></Label>
+              <Select value={initiativeId} onValueChange={setInitiativeId} disabled={!businessUnitId}>
+                <SelectTrigger><SelectValue placeholder="Select an initiative" /></SelectTrigger>
                 <SelectContent>
-                  {filteredProjects.map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
+                  {filteredInitiatives.map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
                 </SelectContent>
               </Select>
             </div>
@@ -189,7 +188,7 @@ export default function SubmitFeedback() {
               <Textarea
                 value={positiveComment}
                 onChange={(e) => setPositiveComment(e.target.value)}
-                placeholder="What does your manager do well? What should they keep doing?"
+                placeholder="What does your manager do well? What best practices should they keep?"
                 className="min-h-[80px] resize-y"
               />
             </div>
