@@ -326,6 +326,9 @@ frontend:
         -working: true
         -agent: "testing"
         -comment: "VERIFIED: Manager button redirects to /my-growth successfully. Growth-focused messaging 'This Is Your Growth Space' visible. Metric cards show 'Team Responses' (15 anonymous submissions) and 'Overall Score' (3.57 out of 5.0). Privacy disclaimer present."
+        -working: true
+        -agent: "testing"
+        -comment: "QUALITATIVE VIEW VERIFIED: Manager Home is now purely qualitative with NO numerical data. Growth banner states 'No scores, ratings, or individual responses are shown — only qualitative guidance.' Manager profile shows qualitative badge 'Insights Available' (not numerical count). Privacy notice confirms 'Individual responses, numerical ratings, scores, and trends are never shown.' All action cards and sections are text-based only."
 
   - task: "Manager Insights - AI Summary Generation"
     implemented: true
@@ -341,6 +344,9 @@ frontend:
         -working: true
         -agent: "testing"
         -comment: "VERIFIED: 'Generate My Insights' button appears and functions correctly. After generation, all required sections visible: Development Summary, Your Strengths, Growth Opportunities, Behavioral Insights. AI-generated content displays properly with aggregated feedback data."
+        -working: true
+        -agent: "testing"
+        -comment: "QUALITATIVE VIEW VERIFIED: My Insights page contains NO numerical data, NO MetricCard components, NO 'Ratings' tab, NO 'Trends' tab. Only qualitative sections appear: Development Summary, Your Key Strengths, Growth Opportunities, Behavioral Insights, Recommended Next Steps. Disclaimer explicitly states 'No numerical scores, ratings, or response counts are shown.' All content is purely text-based coaching guidance."
 
   - task: "Manager Learning Plan - 30-60-90 Day Plan"
     implemented: true
@@ -356,6 +362,12 @@ frontend:
         -working: true
         -agent: "testing"
         -comment: "VERIFIED: Learning Plan page loads correctly. 'Generate Learning Plan' button present. After generation, displays 30-60-90 day growth plan with three phases (First 30 Days, Days 31-60, Days 61-90), recommended learning resources, and key focus areas. Privacy disclaimer included."
+        -working: false
+        -agent: "testing"
+        -comment: "CRITICAL BUG FOUND: Badge component not imported in LearningPlan.jsx causing red screen error 'ReferenceError: Badge is not defined'. Page crashes and cannot render 30-60-90 day plan sections."
+        -working: true
+        -agent: "testing"
+        -comment: "BUG FIXED: Added missing Badge import to LearningPlan.jsx. Page now renders correctly. QUALITATIVE VIEW VERIFIED: Learning Plan contains NO numerical data. Displays 30-60-90 Day Growth Plan (text only), Recommended Learning Resources (books, courses, workshops), and Key Focus Areas (action items). Disclaimer states 'No individual responses or identities are visible.' All content is purely qualitative coaching guidance."
 
   - task: "Access Control - Employee and Manager Cannot Access Admin Routes"
     implemented: true
@@ -394,3 +406,5 @@ agent_communication:
     -message: "All tasks have been successfully tested. The LeadLens application works as expected with all core functionality operational."
     -agent: "testing"
     -message: "Comprehensive testing completed for OpenWork rebrand. All 15 test scenarios passed successfully. Application properly rebranded from LeadLens to OpenWork with correct terminology (Business Units/Initiatives instead of Domains/Projects). Manager role fully functional with /my-growth routes, AI insights, and learning plans. Access control working correctly for all three roles."
+    -agent: "testing"
+    -message: "QUALITATIVE MANAGER VIEW TESTING COMPLETE: Verified that Manager view (/my-growth) is purely qualitative with NO numerical data. All three Manager pages tested: (1) Manager Home - NO metric cards, only qualitative badges and text; (2) My Insights - NO Ratings/Trends tabs, NO numerical scores, only qualitative coaching sections; (3) Learning Plan - NO numerical data, only text-based 30-60-90 day plan and resources. Fixed critical bug: Added missing Badge import to LearningPlan.jsx. Contrasted with Leadership Dashboard which correctly shows all numerical metrics, charts, and rating distributions. Manager view successfully implements growth-focused, qualitative-only approach as required."

@@ -2,15 +2,13 @@ import { useMemo, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useData } from '../../context/DataContext';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
-import { Badge } from '../../components/ui/badge';
 import { Button } from '../../components/ui/button';
-import { Separator } from '../../components/ui/separator';
 import { Skeleton } from '../../components/ui/skeleton';
-import { ThresholdNotice } from '../../components/dashboard/ThresholdNotice';
+import { Badge } from '../../components/ui/badge';
 import { aiSummaries, defaultAiSummary } from '../../data/seedData';
 import {
-  GraduationCap, Calendar, BookOpen, CheckCircle, Sparkles,
-  ExternalLink, Info, Shield, Target, Lightbulb
+  GraduationCap, Calendar, BookOpen, CheckCircle,
+  Info, Shield, Target, Lightbulb
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -48,7 +46,21 @@ export default function LearningPlan() {
       </motion.div>
 
       {!agg.meetsThreshold ? (
-        <ThresholdNotice count={agg.count} threshold={ANONYMITY_THRESHOLD} />
+        <Card className="border border-border bg-muted/50">
+          <CardContent className="p-8 flex flex-col items-center justify-center text-center space-y-4">
+            <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center">
+              <Shield className="w-7 h-7 text-muted-foreground" />
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-lg font-heading font-semibold text-foreground">
+                Learning Plan Not Yet Available
+              </h3>
+              <p className="text-sm text-muted-foreground max-w-md">
+                To protect the anonymity of your team members, your personalized learning plan is only generated once a sufficient number of responses have been collected. Please check back later.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
       ) : !generated && !loading ? (
         <Card className="border border-border">
           <CardContent className="p-8 flex flex-col items-center text-center space-y-4">
