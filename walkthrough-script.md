@@ -1,5 +1,5 @@
 # OpenWork — Spoken Walkthrough Script
-**Duration:** ~2.5 minutes | **Tone:** Conversational, professional, demo-style
+**Duration:** ~4 minutes | **Tone:** Conversational, professional, demo-style
 
 ---
 
@@ -59,13 +59,43 @@ The key word here is **anonymous**. Their identity is never stored with the feed
 
 ---
 
-## 5. LEADERSHIP VIEW (30 seconds)
+## 5. LEADERSHIP VIEW (~90 seconds)
 
-Leadership sees something different. *(show /admin)*
+Now let's switch to the leadership perspective. This is the admin side — where organizational leaders see the full picture. *(show /admin)*
 
-They get the organizational view — aggregated ratings, trend lines over time, distributions across business units. They can filter by department or time range, trigger AI summaries for any manager, and manage the organizational structure.
+### Dashboard
 
-But even here — they never see raw, individual feedback. Only aggregates. The system enforces anonymity at every level.
+The main dashboard gives you the high-level pulse. Total responses collected, overall rating across the organization, how many managers are being evaluated, and a breakdown by business unit. You can filter everything by department or time range — last 30 days, 90 days, six months.
+
+Below that, there's a **Rating Trends** chart showing how leadership effectiveness is moving over time — across all five dimensions: communication, clarity, support, fairness, and guidance. And you can drill into the **Rating Distributions** to see exactly how responses are spread for each category.
+
+Important: even at this level, leadership is looking at aggregates. They never see a single raw response.
+
+### Manager Insights *(click into /admin/manager-insights)*
+
+This is where it gets powerful. Leadership selects any manager from the dropdown — and immediately sees their aggregated profile. How many responses they've received, their overall score, whether they've hit the anonymity threshold.
+
+There are three tabs here. **Ratings** shows the distribution for each leadership dimension. **Trends** shows how that manager's scores are moving month over month. And **AI Insights** — this is the same engine that powers the manager's own view — generates a full development summary, strengths, improvement areas, a 30-60-90 day plan, and risk watchouts.
+
+The difference? Leadership sees this for *every* manager. The manager only sees their own.
+
+### Business Unit Insights *(click into /admin/unit-insights)*
+
+Same idea, but zoomed out to the department level. Pick a business unit — say, Human Resources or Sales — and you get the aggregated picture for that entire group. Overall ratings, trends, and a manager-by-manager breakdown within the unit.
+
+This is how leadership spots patterns. Maybe one department is consistently strong on communication but lagging on clarity. That tells you something systemic — not about one person, but about how that team operates.
+
+### Managing Business Units & Initiatives *(show /admin/business-units, then /admin/initiatives)*
+
+And finally, the structural layer. Leadership can manage the organizational taxonomy directly from here.
+
+**Business Units** — these are your departments. Engineering, HR, Accounting and Finance, Sales, Marketing, Operations, Design, Data Science. You can add, edit, or remove them as the organization evolves.
+
+**Initiatives** — these are the large-scale, cross-functional efforts that feedback can be tied to. Things like "Digital Transformation," "HR Process Automation," "Cloud Infrastructure Migration," "Enterprise Sales Expansion." These aren't small tasks — they're the strategic programs where leadership quality matters most.
+
+When employees submit feedback, they can optionally tag it to a specific initiative. That gives leadership another lens to understand how managers are performing in the context of specific high-stakes work — not just in the abstract.
+
+Everything here — business units, initiatives, managers, even user roles — is fully manageable through the admin panel. No engineering tickets required.
 
 ---
 
